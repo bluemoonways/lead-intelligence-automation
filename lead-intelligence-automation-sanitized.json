@@ -1,0 +1,355 @@
+{
+  "name": "assigment lead intelligence automation",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the following lead:\n\nName: {{ $json.Name }}\n\nCompany: {{ $json.Company }}\n\nBudget: {{ $json.Budget }}\n\nTimeline: {{ $json.Timeline }}\n\nMessage: {{ $json.Message }}\n\nDetermine the urgency level according to the rules and return only the urgency label.",
+        "options": {
+          "systemMessage": "You are a Lead Qualification Assistant.\n\nYour task is to analyze incoming business leads and classify them into one of the following urgency levels:\n\n- High Urgency\n- Medium Urgency\n- Low Urgency\n\nClassification Rules:\n\n1. High Urgency\n   - Budget is high\n   - Timeline is urgent (<15 days)\n\n2. Medium Urgency\n   - Budget is medium\n   - Timeline is around 1 month\n\n3. Low Urgency\n   - Any other lead that does not match the above conditions\n\nInstructions:\n- Analyze the provided lead information carefully.\n- Return ONLY one of the following exact values:\n  - High Urgency\n  - Medium Urgency\n  - Low Urgency\n- Do not provide explanations, reasoning, notes, JSON, markdown, or extra text."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -144,
+        -160
+      ],
+      "id": "5dcc4513-2c19-44bc-b773-0eeb1755ca68",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -64,
+        64
+      ],
+      "id": "1072b07a-cf14-47c7-8a96-143d8d9bba38",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3bd35ffe-d3bd-4cb5-bc09-969a1657742a",
+              "leftValue": "={{ $json[\"Urgency Tag\"] }}",
+              "rightValue": "High Urgency",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        352,
+        -160
+      ],
+      "id": "89a709cb-8348-4c14-91b7-78732f59447e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "formTitle": "Lead Intelligence Automation",
+        "formDescription": "Customer Urgency",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "placeholder": "What is your Name"
+            },
+            {
+              "fieldLabel": "Email",
+              "placeholder": "Enter Your Email"
+            },
+            {
+              "fieldLabel": "Company",
+              "placeholder": "Enter Your Company Name"
+            },
+            {
+              "fieldLabel": "Budget",
+              "fieldType": "number",
+              "placeholder": "What is your Budget"
+            },
+            {
+              "fieldLabel": "Timeline",
+              "fieldType": "number",
+              "placeholder": "How many Days for Completion"
+            },
+            {
+              "fieldLabel": "Message",
+              "placeholder": "Describe about issue"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -336,
+        -160
+      ],
+      "id": "d61ad903-3399-41f2-826b-fe4cb8c8c07c",
+      "name": "On form submission"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "Urgent Wok",
+        "message": "=\n<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n</head>\n<body style=\"margin:0;padding:0;background:#f4f6f9;font-family:Arial,sans-serif;\">\n\n<div style=\"max-width:650px;margin:20px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.1);\">\n\n    <!-- Header -->\n    <div style=\"background:#dc2626;padding:20px;text-align:center;\">\n        <h1 style=\"color:#ffffff;margin:0;\">\n            🚨 High Urgency Lead Alert\n        </h1>\n    </div>\n\n    <!-- Content -->\n    <div style=\"padding:25px;\">\n\n        <p style=\"font-size:16px;color:#333;\">\n            A new high-priority lead has been received and requires immediate attention.\n        </p>\n\n        <table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\" style=\"border-collapse:collapse;\">\n\n            <tr style=\"background:#f8fafc;\">\n                <td><strong>Name</strong></td>\n                <td>{{ $json.Name }}</td>\n            </tr>\n\n            <tr>\n                <td><strong>Email</strong></td>\n                <td>{{ $json.Email }}</td>\n            </tr>\n\n            <tr style=\"background:#f8fafc;\">\n                <td><strong>Company</strong></td>\n                <td>{{ $json.Company }}</td>\n            </tr>\n\n            <tr>\n                <td><strong>Budget</strong></td>\n                <td>{{ $json.Budget }}</td>\n            </tr>\n\n            <tr style=\"background:#f8fafc;\">\n                <td><strong>Timeline</strong></td>\n                <td>{{ $json.Timeline }}</td>\n            </tr>\n\n            <tr>\n                <td><strong>Message</strong></td>\n                <td>{{ $json.Message }}</td>\n            </tr>\n\n        </table>\n\n        <div style=\"margin-top:25px;text-align:center;\">\n            <span style=\"\n                background:#dc2626;\n                color:white;\n                padding:12px 25px;\n                border-radius:30px;\n                font-size:18px;\n                font-weight:bold;\n                display:inline-block;\">\n                {{ $json['Urgency Tag'] }}\n            </span>\n        </div>\n\n    </div>\n\n    <!-- Footer -->\n    <div style=\"background:#f8fafc;padding:15px;text-align:center;color:#666;font-size:12px;\">\n    </div>\n\n</body>\n</html>\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        -192
+      ],
+      "id": "7f93c5f8-9c5a-4311-b0ad-806443ccf7ac",
+      "name": "Send a message"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "YOUR_SHEET_NAME",
+          "mode": "list"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('On form submission').item.json.Email }}",
+            "Name": "={{ $('On form submission').item.json.Name }}",
+            "Company": "={{ $('On form submission').item.json.Company }}",
+            "Budget": "={{ $('On form submission').item.json.Budget }}",
+            "Timeline": "={{ $('On form submission').item.json.Timeline }}",
+            "Message": "={{ $('On form submission').item.json.Message }}",
+            "Urgency Tag": "={{ $json.output }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Timeline",
+              "displayName": "Timeline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Urgency Tag",
+              "displayName": "Urgency Tag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        160,
+        -160
+      ],
+      "id": "c315e934-70e1-44fb-9635-7fea90428724",
+      "name": "Append row in sheet"
+    },
+    {
+      "parameters": {
+        "content": "Firstly I analyze the assignment and understnad the problem statment",
+        "height": 80
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -464,
+        -336
+      ],
+      "typeVersion": 1,
+      "id": "e55da1b5-8a08-4a6d-8568-88350849f9c2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "nodes whcih i used for categories leads are data collection by form note , AI agent node used for analyzes the lead the classify them. google sheet for data stored. and use if node for High urgency condition and email alert by using gmail node",
+        "height": 144,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        -352
+      ],
+      "typeVersion": 1,
+      "id": "d5f46029-8950-4562-a9e0-af318256a458",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "overall concept of this workflow is to determine the lead classification and handle as per classification ",
+        "height": 96
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        288,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "2f84bea5-975c-4b1a-bde6-5d5c17b04b36",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "bdf3005e-23af-47a0-808b-515cd128846d",
+  "id": "M6SQFcJ0zFh6wAl0",
+  "tags": []
+}
