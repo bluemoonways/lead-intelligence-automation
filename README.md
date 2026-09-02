@@ -30,23 +30,9 @@ The workflow automatically:
 6. Checks whether the lead is High Urgency.
 7. Sends a Gmail alert for High Urgency leads.
 
-## 🔄 Workflow Architecture
+## 🔄 Workflow Flowchart
 
-```text
-Lead Form
-    ↓
-AI Agent
-    ↓
-Google Gemini
-    ↓
-Lead Classification
-    ↓
-Google Sheets
-    ↓
-High Urgency Check
-    ↓
-Gmail Alert
-```
+![Lead Intelligence Automation](screenshots/lead-intelligence-automation-flowchart.png)
 
 ## 🧠 Lead Classification Logic
 
@@ -75,43 +61,6 @@ The AI Agent is instructed to return only the urgency label without additional e
 * **Google Sheets** — Lead data storage
 * **Gmail** — High-priority lead notifications
 * **n8n Form Trigger** — Lead data collection
-
-## 📋 Lead Information Collected
-
-The form collects:
-
-* Name
-* Email
-* Company
-* Budget
-* Timeline
-* Message
-
-## ⚙️ Workflow Breakdown
-
-### 1. Lead Collection
-
-The workflow starts when a potential customer submits the **Lead Intelligence Automation** form.
-
-### 2. AI Lead Analysis
-
-The submitted lead information is passed to an AI Agent. Google Gemini processes the information and determines the appropriate urgency level.
-
-### 3. Data Storage
-
-The lead information and generated urgency tag are stored in Google Sheets for tracking and follow-up.
-
-### 4. Urgency Detection
-
-An IF node checks whether the generated urgency tag is:
-
-```text
-High Urgency
-```
-
-### 5. Email Alert
-
-If the lead is classified as High Urgency, Gmail automatically sends an alert containing the lead's details and urgency status.
 
 ## 🚀 Example Use Case
 
