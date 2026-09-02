@@ -106,6 +106,7 @@ Possible future enhancements include:
 
 A sanitized n8n workflow file is included for portfolio demonstration.
 The workflow uses n8n, Google Gemini, Google Sheets, and Gmail to automate lead qualification and prioritization.
+
 👉 [View / Download Workflow JSON](lead-intelligence-automation-sanitized.json)
 
 ## 👨‍💻 Author
