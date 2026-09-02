@@ -32,7 +32,7 @@ The workflow automatically:
 
 ## 🔄 Workflow Flowchart
 
-![Lead Intelligence Automation](screenshots/lead-intelligence-automation-flowchart.png)
+![Lead Intelligence Automation Workflow Flowchart](screenshots/lead-intelligence-automation-flowchart.png)
 
 ## 🧠 Lead Classification Logic
 
