@@ -102,6 +102,12 @@ Possible future enhancements include:
 * More advanced AI-based lead scoring
 * Dashboard for lead analytics
 
+  ## 🚀 Workflow JSON
+
+A sanitized n8n workflow file is included for portfolio demonstration.
+
+The workflow uses n8n, Google Gemini, Google Sheets, and Gmail to automate lead qualification and prioritization.
+
 ## 👨‍💻 Author
 
 **Faheem Abbas**
