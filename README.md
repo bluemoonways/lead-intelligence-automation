@@ -102,13 +102,18 @@ Possible future enhancements include:
 * More advanced AI-based lead scoring
 * Dashboard for lead analytics
 
-## 🚀 Workflow JSON
+## 📌 Portfolio Implementation
+
+This project demonstrates how incoming business leads can be analyzed and automatically assigned an urgency level based on the lead's budget and completion timeline.
 
 A sanitized n8n workflow file is included for portfolio demonstration.
 
-For custom implementation or commercial use, [please [Contact me]."](https://wa.me/923111700076)
-
 👉 [View / Download Workflow JSON](lead-intelligence-automation-sanitized.json)
+
+For custom implementation or commercial use, please <strong>Contact Us:</strong> <sub><a href="https://wa.me/923002120566"><img src="https://img.shields.io/badge/WhatsApp-25D366?logo=whatsapp&logoColor=white&style=flat-square" alt="WhatsApp"></a></sub>
+
+
+
 
 ## 👨‍💻 Author
 
